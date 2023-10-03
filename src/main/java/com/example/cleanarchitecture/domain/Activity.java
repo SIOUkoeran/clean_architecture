@@ -1,0 +1,52 @@
+package com.example.cleanarchitecture.domain;
+
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Value;
+
+import java.time.LocalDateTime;
+
+/**
+ * 계좌에 대한 모든 활동들.
+ * (ex. 입금, 출금)
+ */
+public class Activity {
+
+   private ActivityId id;
+   @Getter
+   @NonNull
+   private final Account.AccountId ownerAccountId;
+
+   @Getter
+   @NonNull
+   private final Account.AccountId sourceAccountId;
+
+   @Getter
+   @NonNull
+   private final Account.AccountId targetAccountId;
+
+   @Getter
+   @NonNull
+   private final LocalDateTime timestamp;
+   @Getter
+   @NonNull
+   private final Money money;
+
+    public Activity(
+                    @NonNull Account.AccountId ownerAccountId,
+                    @NonNull Account.AccountId sourceAccountId,
+                    @NonNull Account.AccountId targetAccountId,
+                    @NonNull LocalDateTime timestamp,
+                    @NonNull Money money) {
+        this.ownerAccountId = ownerAccountId;
+        this.sourceAccountId = sourceAccountId;
+        this.targetAccountId = targetAccountId;
+        this.timestamp = timestamp;
+        this.money = money;
+    }
+
+    @Value
+    public static class ActivityId {
+        private final Long value;
+    }
+}
