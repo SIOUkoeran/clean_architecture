@@ -1,16 +1,17 @@
 package com.example.cleanarchitecture.domain;
 
 import lombok.*;
-
 import java.time.LocalDateTime;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class Account {
-    private AccountId id;
+    @Getter private AccountId id;
     private Money baselineBalance;
-    private ActivityWindow activityWindow;
+    @Getter private ActivityWindow activityWindow;
+
+
 
     public Money calculateBalance() {
         return Money.add(
@@ -42,7 +43,7 @@ public class Account {
     }
 
     public boolean deposit(Money money, AccountId sourceAccountId) {
-        Activity deposit = new Activity(
+        var deposit = new Activity(
                 this.id,
                 sourceAccountId,
                 this.id,
@@ -57,5 +58,17 @@ public class Account {
     @Value
     public static class AccountId {
         private Long value;
+    }
+
+    public static Account withId(
+            AccountId accountId,
+            Money baselineBalance,
+            ActivityWindow activityWindow
+    ){
+      return new Account(
+              accountId,
+              baselineBalance,
+              activityWindow
+      );
     }
 }
